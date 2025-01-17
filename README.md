@@ -72,7 +72,7 @@ The project consists of two main components:
 
 4. **Run the FastAPI backend**:
     ```sh
-    uvicorn my.main:app --reload
+    main.py
     ```
 
 5. **Run the Streamlit frontend**:
