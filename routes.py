@@ -1,3 +1,4 @@
+# Description: This file contains the FastAPI route for extracting reviews from a given URL.
 from fastapi import APIRouter, HTTPException
 from pydantic import HttpUrl
 from fastapi.responses import PlainTextResponse
@@ -6,11 +7,13 @@ from browser import BrowserManager
 from html_processor import HTMLProcessor
 import google.generativeai as genai
 
+# Create a new FastAPI router
 router = APIRouter()
 
 # Configure the Gemini API with your API key
 genai.configure(api_key="AIzaSyBTwzZtCvGl24kDrCijxQVRzVhX-N39I5c")
 
+# Define the route for extracting reviews
 @router.get("/api/reviews", response_class=PlainTextResponse)
 async def get_reviews(url: HttpUrl):
     try:

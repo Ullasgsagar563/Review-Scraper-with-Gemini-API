@@ -1,44 +1,9 @@
-
-# from playwright.async_api import async_playwright
-# import logging
-
-# class BrowserManager:
-#     async def __aenter__(self):
-#         self.playwright = await async_playwright().start()
-#         self.browser = await self.playwright.chromium.launch(headless=True)
-#         return self
-        
-#     async def __aexit__(self, exc_type, exc_val, exc_tb):
-#         if hasattr(self, 'browser'):
-#             await self.browser.close()
-#         if hasattr(self, 'playwright'):
-#             await self.playwright.stop()
-            
-#     async def get_page_content(self, url: str) -> str:
-#         logging.info(f"Fetching content from URL: {url}")
-#         page = await self.browser.new_page()
-#         try:
-#             # Navigate to the page
-#             await page.goto(url, wait_until="networkidle")
-#             logging.info("Page loaded successfully")
-            
-#             # Scroll to load dynamic content
-#             for _ in range(3):
-#                 await page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
-#                 await page.wait_for_timeout(60000)
-            
-#             content = await page.content()
-#             logging.info("Content retrieved successfully")
-#             return content
-#         except Exception as e:
-#             logging.error(f"Error fetching page content: {str(e)}")
-#             raise
-#         finally:
-#             await page.close()
+# Description: This file contains the code to manage the browser instance and fetch the content of a web page using Playwright.
 from playwright.async_api import async_playwright, Page
 import logging
 import asyncio
 
+# Define a class to manage the browser instance
 
 class BrowserManager:
     async def __aenter__(self):
@@ -58,14 +23,14 @@ class BrowserManager:
 
         for attempt in range(retries):
             try:
-                # Navigate to the page with a higher timeout
+                # Load the page and wait for it to load completely
                 await page.goto(url, timeout=60000, wait_until="domcontentloaded")
                 logging.info("Page loaded successfully")
 
-                # Scroll to the bottom incrementally to load dynamic content
+                # Scroll the page to load dynamic content
                 await self._scroll_page(page)
                 
-                # Retrieve page content
+                # Get the HTML content of the page
                 content = await page.content()
                 logging.info("Content retrieved successfully")
                 return content
@@ -79,7 +44,9 @@ class BrowserManager:
 
             finally:
                 await page.close()
+        
 
+    # Define a method to scroll the page to load dynamic content
     async def _scroll_page(self, page: Page, scroll_delay: int = 1000, max_scrolls: int = 10):
         """Scroll the page to the bottom to trigger dynamic content loading."""
         logging.info("Scrolling the page to load dynamic content")
@@ -92,8 +59,3 @@ class BrowserManager:
                 break  # Stop scrolling if no more content is loaded
         logging.info("Scrolling complete")
 
-
-# Example usage:
-# async with BrowserManager() as browser_manager:
-#     content = await browser_manager.get_page_content("https://example.com")
-#     print(content)
