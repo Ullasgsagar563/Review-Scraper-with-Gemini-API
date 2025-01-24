@@ -17,6 +17,9 @@ load_dotenv()
 # Create a FastAPI app
 app = FastAPI(title="Review Scraper API")
 app.include_router(router)
+from fastapi.middleware.cors import CORSMiddleware
+
+
 
 # Define the main entry point
 if __name__ == "__main__":
