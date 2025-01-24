@@ -1,0 +1,8 @@
+streamlit
+playwright
+fastapi
+uvicorn
+bs4
+python-dotenv
+requests
+google-generativeai
