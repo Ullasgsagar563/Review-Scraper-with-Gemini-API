@@ -3,8 +3,8 @@ import streamlit as st
 import requests
 
 # URL of the FastAPI backend
-API_URL = "http://localhost:8000/api/reviews"
-
+# API_URL = "http://localhost:8000/api/reviews"
+API_URL = "review-scraper-with-gemini-api-production.up.railway.app"
 def get_reviews_from_backend(url: str):
     """
     Make a GET request to the FastAPI backend with the provided URL.
